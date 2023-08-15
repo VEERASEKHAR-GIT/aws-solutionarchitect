@@ -8,13 +8,13 @@ Resources:
     Properties:
       KeyName: !Ref NewKeyPair
       ImageId: "ami-053b0d53c279acc90"
-      InstanceType: "t2.micro"
+      InstanceType: "t2.small"
       SubnetId: "subnet-074fdc65a514407b8"
 
   MyVolume:
     Type: 'AWS::EC2::Volume'
     Properties:
-      Size: '10'
+      Size: '8'
       AvailabilityZone: us-east-1b
   Attachment:
     Type: 'AWS::EC2::VolumeAttachment'
