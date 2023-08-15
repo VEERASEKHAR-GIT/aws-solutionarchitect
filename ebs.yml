@@ -1,21 +1,17 @@
 Resources:
-  NewKeyPair:
-    Type: 'AWS::EC2::KeyPair'
-    Properties:
-      KeyName: MyKeyPair
   MyEc2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      KeyName: !Ref NewKeyPair
+      KeyName: "solution"
       ImageId: "ami-053b0d53c279acc90"
-      InstanceType: "t2.micro"
-      SubnetId: "subnet-074fdc65a514407b8"
+      InstanceType: "t2.small"
+      SubnetId: "subnet-0987492a31edb1a7b"
 
   MyVolume:
     Type: 'AWS::EC2::Volume'
     Properties:
-      Size: '10'
-      AvailabilityZone: us-east-1b
+      Size: '8'
+      AvailabilityZone: us-east-1
   Attachment:
     Type: 'AWS::EC2::VolumeAttachment'
     Properties:
