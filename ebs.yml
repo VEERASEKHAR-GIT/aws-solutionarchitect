@@ -4,7 +4,7 @@ Resources:
     Properties:
       KeyName: "solution"
       ImageId: "ami-053b0d53c279acc90"
-      InstanceType: "t2.micro"
+      InstanceType: "t2.small"
       SubnetId: "	subnet-0ee6950ef13982334"
 
   MyVolume:
