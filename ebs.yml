@@ -2,7 +2,7 @@ Resources:
   NewKeyPair:
     Type: 'AWS::EC2::KeyPair'
     Properties:
-      KeyName: MyKeyPairimm
+      KeyName: MyKeyPair
   MyEc2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
