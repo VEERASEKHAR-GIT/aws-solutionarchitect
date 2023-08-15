@@ -2,11 +2,11 @@ Resources:
   NewKeyPair:
     Type: 'AWS::EC2::KeyPair'
     Properties:
-      KeyName: Mykey
+      KeyName: so
   MyEc2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
-      KeyName: !Ref Mykey
+      KeyName: !Ref NewKeyPair
       ImageId: "ami-053b0d53c279acc90"
       InstanceType: "t2.micro"
       SubnetId: "subnet-1195677a"
