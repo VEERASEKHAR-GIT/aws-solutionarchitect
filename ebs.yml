@@ -4,7 +4,7 @@ Resources:
     Properties:
       KeyName: "solution"
       ImageId: "ami-053b0d53c279acc90"
-      InstanceType: "t2.micro"
+      InstanceType: "t2.small"
       SubnetId: "subnet-0987492a31edb1a7b"
   MyVolume:
     Type: 'AWS::EC2::Volume'
