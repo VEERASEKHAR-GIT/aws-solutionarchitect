@@ -1,0 +1,120 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS CloudFormation Template for vpc
+
+Resources:
+  myVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      Tags:
+      - Key: stack
+        Value: production
+  privateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: myVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: "ap-south-1a"
+      Tags:
+      - Key: stack
+        Value: production
+  publicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:
+        Ref: myVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: "ap-south-1b"
+      Tags:
+      - Key: stack
+        Value: production    
+  myRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:  
+        Ref: myVPC
+      Tags:
+      - Key: stack
+        Value: production
+  myInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: stack
+        Value: production
+  myAttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref myVPC
+      InternetGatewayId: !Ref myInternetGateway
+  myRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref myRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref myInternetGateway
+  mySubnetAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref publicSubnet
+      RouteTableId: !Ref myRouteTable
+  # myAMI:
+  #   Type: Custom::AMI
+  #   Properties:
+  #     Filters:
+  #       name: 'amzn-ami-2017.09.a-amazon-ecs-optimized'
+  #     ServiceToken: !Sub 'arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:binxio-cfn-ami-provider'
+  myNewKeyPair:
+    Type: 'AWS::EC2::KeyPair'
+    Properties:
+      KeyName: MyKeyPair
+  myInstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId: !Ref myVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  myENI:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+        Tags:
+        - Key: stack
+          Value: production
+        Description: A nice description.
+        SourceDestCheck: 'false'
+        GroupSet:
+        - !GetAtt myInstanceSecurityGroup.GroupId
+        SubnetId: !Ref publicSubnet
+        PrivateIpAddress: 10.0.2.16
+  myEC2Instance: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-0da59f1af71ea4ad2"
+      KeyName:
+         Ref: myNewKeyPair
+      # SubnetId: !Ref publicSubnet
+      NetworkInterfaces:
+      # - NetworkInterfaceId:
+      #    Ref: myENI
+      #   DeviceIndex: '0'
+      InstanceType: "t2.micro"
+      # SecurityGroupIds:
+      # - !GetAtt myInstanceSecurityGroup.GroupId
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: 'true'
+          DeviceIndex: '0'
+          GroupSet:
+            - !GetAtt myInstanceSecurityGroup.GroupId
+          SubnetId: !Ref publicSubnet
