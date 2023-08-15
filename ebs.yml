@@ -14,7 +14,7 @@ Resources:
   MyVolume:
     Type: 'AWS::EC2::Volume'
     Properties:
-      Size: '8'
+      Size: '9'
       AvailabilityZone: us-east-1b
   Attachment:
     Type: 'AWS::EC2::VolumeAttachment'
