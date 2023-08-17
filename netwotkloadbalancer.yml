@@ -7,8 +7,10 @@ Resources:
     Properties:
       Name: MyNetworkLoadBalancer
       Subnets:
-        - subnet-e58fafa9
-        - subnet-1195677a
+        - subnet-074fdc65a514407b8
+        - subnet-0762a73dee0e9ca0e
+        - subnet-0987492a31edb1a7b
+        - subnet-0ee6950ef13982334
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
           Value: '60'
@@ -23,7 +25,7 @@ Resources:
       Name: MyTargetGroup
       Port: 80
       Protocol: TCP
-      VpcId: 'vpc-12f92c79'
+      VpcId: 'vpc-022a664c2965faced'
       HealthCheckIntervalSeconds: 30
       HealthCheckProtocol: HTTP
       HealthCheckTimeoutSeconds: 10
