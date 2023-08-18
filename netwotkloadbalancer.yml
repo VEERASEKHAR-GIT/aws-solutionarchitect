@@ -43,7 +43,7 @@ Resources:
           FixedResponseConfig:
             StatusCode: 200
             ContentType: text/plain
-            MessageBody: 'Hello, world!'
+            MessageBody: 'Hello, world! veera'
       LoadBalancerArn: !Ref MyNetworkLoadBalancer
       Port: 80
       Protocol: HTTP
